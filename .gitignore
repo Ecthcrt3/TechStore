@@ -398,3 +398,4 @@ FodyWeavers.xsd
 *.sln.iml
 
 /TechStore/TechStore.UI.MVC/Appsettings.Json
+/TechStore/TechStore.UI.MVC/appsettings.Development.json
