@@ -1,0 +1,41 @@
+﻿@model IEnumerable<TechStore.DATA.EF.Models.Restock>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.MinStock)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MaxStock)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.MinStock)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MaxStock)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.RestockLevel">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.RestockLevel">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.RestockLevel">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
