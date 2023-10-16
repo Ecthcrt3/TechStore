@@ -4,76 +4,76 @@
     ViewData["Title"] = "Your Cart";
     decimal? cartTotal = 0;
 }
-
 <section class="product_section layout_padding">
     <div class="container">
         <div class="heading_container heading_center">
             <h2>
                 Your <span>Cart</span>
             </h2>
-            <p align="center">
+            @*            <p align="center">
                 <a asp-action="TiledProducts" asp-controller="Products" class="btn btn-info">
-                    Back to Shopping
+                Back to Shopping
                 </a>
-            </p>
+                </p>*@
         </div>
 
         @if (Model.Count == 0)
         {
-                <p class="alert alert-warning text-center">
+            <p class="alert alert-warning text-center">
                 @ViewBag.Message
-                                <a asp-action="TiledProducts" asp-controller="Products" class="btn btn-info">
+                @*                                <a asp-action="TiledProducts" asp-controller="Products" class="btn btn-info">
                     Shop Products
-                </a>
+                    </a>*@
             </p>
         }
         else
         {
             <table class="table">
                 <thead>
-                    <tr>
+                    <tr class="text-center">
                         <th>Product</th>
                         <th>Quantity</th>
                         <th>Name</th>
                         <th>Price</th>
                         <th>Total</th>
-                        <th></th> 
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var item in Model)
                     {
-                        <tr>
+                        <tr class="text-center">
                             <td>
-                                <img src="~/images/t_@item.Value.Product.ProductImage" alt="@item.Value.Product.ProductName" />
+                                <a asp-action="Details" asp-controller="Products" asp-route-id="@item.Value.Product.ProductId">
+
+                                    <img src="~/assets/t_@item.Value.Product.ProductImage" alt="@item.Value.Product.ProductName" />
+                                </a>
                             </td>
                             <td>
-                                <form asp-action="UpdateCart">
+                                <form asp-action="UpdateCart" class="text-center">
                                     <input type="hidden" name="productId" value="@item.Key" />
-                                    <input type="text" name="qty" value="@item.Value.Qty" class="form-control d-block mx-auto text-center w-50" />
-                                    <input type="submit" value="Update Cart" class="btn btn-primary btn-sm" />
+                                    <input type="text" name="qty" value="@item.Value.Qty" class="d-block form-control mx-auto text-center w-50" />
+                                    <input type="submit" value="Update Cart" class="btn btn-dark btn-sm my-3" />
                                 </form>
                             </td>
                             <td>
-                                @item.Value.Product.ProductName;
+                                @item.Value.Product.ProductName
                             </td>
                             <td>
                                 @string.Format($"{@item.Value.Product.ProductPrice:c}")
                             </td>
                             <td>
                                 @{
-
                                     decimal? lineTotal = item.Value.Qty * item.Value.Product.ProductPrice;
                                     cartTotal += lineTotal;
                                 }
                                 @string.Format($"{lineTotal:c}")
                             </td>
                             <td>
-                                <a 
-                                    asp-action="RemoveFromCart"
-                                    asp-controller="ShoppingCart"
-                                    asp-route-id="@item.Key"
-                                    class="btn btn-danger">
+                                <a asp-action="RemoveFromCart"
+                           asp-controller="ShoppingCart"
+                           asp-route-id="@item.Key"
+                           class="btn btn-danger">
                                     Remove From Cart
                                 </a>
                             </td>
@@ -82,10 +82,10 @@
                 </tbody>
             </table>
 
-                <div class="alert alert-success text-center">
-                    <p>
-                        Your total before taxes and shipping is @string.Format($"{cartTotal:c}").
-                    </p>
+            <div class="alert alert-success text-center">
+                <p>
+                    Your total before taxes and shipping is @string.Format($"{cartTotal:c}").
+                </p>
 
                 @if (User.Identity.IsAuthenticated)
                 {
@@ -103,7 +103,7 @@
                     </button>
                 }
 
-                </div>
+            </div>
 
         }
 

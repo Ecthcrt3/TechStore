@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using TechStore.DATA.EF.Models;
 using TechStore.UI.MVC.Utilities;
+using X.PagedList;
 
 namespace TechStore.UI.MVC.Controllers
 {
@@ -27,6 +28,59 @@ namespace TechStore.UI.MVC.Controllers
         {
             var storeFrontContext = _context.Products.Include(p => p.Category).Include(p => p.RestockLevelNavigation);
             return View(await storeFrontContext.ToListAsync());
+        }
+
+        public async Task<IActionResult> ProductsTiled(string searchTerm, int categoryId, int page = 1)
+        {
+            int pageSize = 8;
+
+            var products = _context.Products.Where(p => p.UnitsInStock > 0).Include(p => p.Category).ToList();
+            #region Optional Category Filter
+
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName");
+            ViewBag.Category = 0;
+
+            if (categoryId != 0)
+            {
+                //If the user selected a Category...
+                //(1) Filter the Products
+                products = products.Where(p => p.CategoryId == categoryId).ToList();
+
+                //(2) Repopulate the Dropdown with the chosen Category selected.
+                ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName", categoryId);
+
+                //(3) Persist the Category in the ViewBag.
+                ViewBag.Category = categoryId;
+            }
+
+            #endregion
+
+            #region Optional Search Filter
+
+            if (!String.IsNullOrEmpty(searchTerm))
+            {
+                //If we have a SearchTerm...
+                products = products
+                    .Where(p =>
+                    p.ProductName.ToLower().Contains(searchTerm.ToLower())
+                    || p.Category.CategoryName.ToLower().Contains(searchTerm.ToLower())
+                    || p.ProductDescription.ToLower().Contains(searchTerm.ToLower()))
+                    .ToList();
+                ViewBag.NbrResults = products.Count;
+                ViewBag.SearchTerm = searchTerm;
+            }
+            else
+            {
+                //If we don't have a SearchTerm...
+                ViewBag.NbrResults = null;
+                ViewBag.SearchTerm = null;
+            }
+
+            #endregion
+            return View(products.ToPagedList(page, pageSize));
+
+            //var storeFrontContext = _context.Products.Include(p => p.Category).Include(p => p.RestockLevelNavigation);
+            //return View(await storeFrontContext.ToListAsync());
         }
 
         // GET: Products/Details/5
@@ -273,5 +327,7 @@ namespace TechStore.UI.MVC.Controllers
         {
           return (_context.Products?.Any(e => e.ProductId == id)).GetValueOrDefault();
         }
+
+
     }
 }

@@ -12,6 +12,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
     <!-- DataTables -->
     <link href="//cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <!-- Paged List -->
+    <link href="~/css/PagedList.css" rel="stylesheet" />
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="~/css/styles.css" rel="stylesheet" />
 </head>
@@ -19,20 +21,26 @@
     <!-- Navigation-->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container px-4 px-lg-5">
-            <a class="navbar-brand" href="@Url.Action("Index", "Home")">Start Bootstrap</a>
+            <a class="navbar-brand" href="@Url.Action("Index", "Home")">Generic Tech Store</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
                     <li class="nav-item"><a class="nav-link" aria-current="page" href="@Url.Action("Index", "Home")">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="@Url.Action("Index", "Contact")">Contact Us</a></li>
-                    <li class="nav-item"><a class="nav-link" aria-current="page" href="@Url.Action("Index", "Products")">Shop</a></li>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <li class="nav-item"><a class="nav-link" aria-current="page" href="@Url.Action("Index", "Products")">Products</a></li>
+                    }
+                    else
+                    {
+                        <li class="nav-item"><a class="nav-link" aria-current="page" href="@Url.Action("ProductsTiled", "Products")">Shop</a></li>
+                    }
                 </ul>
                 <partial name="_LoginPartial" />
                 <form class="d-flex">
-                    <button class="btn btn-outline-dark" type="submit">
+                    <button class="btn btn-outline-dark" type="button" onclick="location.href='@Url.Action("Index", "ShoppingCart")'">
                         <i class="bi-cart-fill me-1"></i>
-                        Cart
-                        <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
+                        <span class="badge bg-dark text-white ms-1 rounded-pill"></span>
                     </button>
                 </form>
             </div>
@@ -47,7 +55,7 @@
 
     <!-- Footer-->
     <footer class="py-5 bg-dark">
-        <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Your Website 2023</p></div>
+        <div class="container"><p class="m-0 text-center text-white">Copyright &copy; GeneCathcart.com @DateTime.Now.Year</p></div>
     </footer>
     <!-- jQuery Js -->
     <script src="~/js/jquery-3.4.1.min.js"></script>
@@ -57,6 +65,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Core theme JS-->
     <script src="~/js/scripts.js"></script>
+
+    <!-- AJAX -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ajax-unobtrusive/3.2.6/jquery.unobtrusive-ajax.min.js" integrity="sha512-DedNBWPF0hLGUPNbCYfj8qjlEnNE92Fqn7xd3Sscfu7ipy7Zu33unHdugqRD3c4Vj7/yLv+slqZhMls/4Oc7Zg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     @await RenderSectionAsync("scripts", required: false);
 </body>

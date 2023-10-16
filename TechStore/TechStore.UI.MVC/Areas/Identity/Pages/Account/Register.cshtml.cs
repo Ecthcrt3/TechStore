@@ -141,10 +141,12 @@ namespace TechStore.UI.MVC.Areas.Identity.Pages.Account
 
                     var Customer = new Customer()
                     {
+                        CustomerId = userId,
                         UserName = Input.UserName,
                         FirstName = Input.FirstName,
                         LastName = Input.LastName,
                         PhoneNumber = Input.PhoneNumber,
+                        CustomerEmail = Input.Email
                     };
                     _context.Customers.Add(Customer);
                     _context.SaveChanges();

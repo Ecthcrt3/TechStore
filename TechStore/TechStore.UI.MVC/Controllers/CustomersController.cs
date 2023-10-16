@@ -27,7 +27,7 @@ namespace TechStore.UI.MVC.Controllers
         }
 
         // GET: Customers/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(string id)
         {
             if (id == null || _context.Customers == null)
             {
@@ -67,7 +67,7 @@ namespace TechStore.UI.MVC.Controllers
         }
 
         // GET: Customers/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(string id)
         {
             if (id == null || _context.Customers == null)
             {
@@ -87,7 +87,7 @@ namespace TechStore.UI.MVC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CustomerId,UserName,FirstName,LastName,CustomerEmail,PhoneNumber")] Customer customer)
+        public async Task<IActionResult> Edit(string id, [Bind("CustomerId,UserName,FirstName,LastName,CustomerEmail,PhoneNumber")] Customer customer)
         {
             if (id != customer.CustomerId)
             {
@@ -118,7 +118,7 @@ namespace TechStore.UI.MVC.Controllers
         }
 
         // GET: Customers/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(string id)
         {
             if (id == null || _context.Customers == null)
             {
@@ -138,7 +138,7 @@ namespace TechStore.UI.MVC.Controllers
         // POST: Customers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(string id)
         {
             if (_context.Customers == null)
             {
@@ -154,7 +154,7 @@ namespace TechStore.UI.MVC.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CustomerExists(int id)
+        private bool CustomerExists(string id)
         {
           return (_context.Customers?.Any(e => e.CustomerId == id)).GetValueOrDefault();
         }

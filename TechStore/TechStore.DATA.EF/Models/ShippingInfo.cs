@@ -6,7 +6,7 @@ namespace TechStore.DATA.EF.Models
     public partial class ShippingInfo
     {
         public int ShippingId { get; set; }
-        public int? CustomerId { get; set; }
+        public string? CustomerId { get; set; }
         public string Street { get; set; } = null!;
         public string City { get; set; } = null!;
         public string State { get; set; } = null!;

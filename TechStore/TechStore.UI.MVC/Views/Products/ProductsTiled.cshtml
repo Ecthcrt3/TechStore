@@ -1,0 +1,95 @@
+﻿@*@model IEnumerable<TechStore.DATA.EF.Models.Product>*@
+@model IPagedList<TechStore.DATA.EF.Models.Product>
+@using X.PagedList.Mvc.Core;
+@using X.PagedList;
+
+@{
+    ViewData["Title"] = "Shop Products";
+}
+
+@section hero{
+
+
+<!-- Header-->
+<header class="bg-dark py-2">
+    <div class="container px-4 px-lg-5 my-3">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">Tech Store Products</h1>
+            <h4>Your next build is just a click away!</h4>
+        </div>
+    </div>
+</header>
+}
+
+@if (User.IsInRole("Admin"))
+{
+    <p class="row justify-content-around">
+        <a asp-action="Create" class="btn btn-dark col-md-2">Create New</a>
+        <a asp-action="Index" class="btn btn-dark col-md-2"> View</a>
+    </p>
+}
+
+<div class="offset-3 col-sm-6">
+
+    <form asp-action="ProductsTiled" method="get">
+
+        <label for="categoryId" class="control-label d-block text-center">Filter by Category</label>
+        <select name="categoryId" class="form-control text-center mb-3" asp-items="ViewBag.CategoryId">
+            <option value="0">[Choose a Category]</option>
+        </select>
+
+        <input name="searchTerm" class="form-control text-center" placeholder="Search Gadgets..." />
+
+        <input type="submit" value="Search" class="btn btn-dark text-center w-50 d-block mx-auto my-2" />
+
+    </form>
+    @if (ViewBag.NbrResults != null)
+    {
+        <p class="mt-5 p-2 alert-warning text-center">
+            Showing @ViewBag.NbrResults result@(ViewBag.NbrResults > 1 ? "s" : "") for '@ViewBag.SearchTerm'...
+        </p>
+    }
+
+</div>
+
+<section class="py-5">
+    <div class="container px-4 px-lg-5 mt-5">
+        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+            @foreach (var product in Model)
+            {
+                <div class="col mb-5">
+                    <div class="card h-100 bg-dark text-light">
+                        <img class="card-img-top" src="~/assets/@product.ProductImage" alt="@product.ProductDescription" />
+                        <div class="card-body p-4">
+                            <div class="text-center">
+                                <h5 class="fw-bolder">@product.ProductName</h5>
+                                @String.Format($"{@product.ProductPrice:c}")
+                            </div>
+                        </div>
+                        <!-- Product actions-->
+                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                            <div class="text-center">
+                                <a class="btn btn-outline-light mt-auto" asp-action="Details" asp-route-id="@product.ProductId">Details</a>
+                                <a class="btn btn-outline-light mt-auto" asp-action="AddToCart" asp-controller="ShoppingCart" asp-route-id="@product.ProductId">Add To Cart</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <div class="row mt-5">
+            <div class="w-50 mx-auto text-center">
+                Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+                <div class="w-100">
+                    @Html.PagedListPager(
+                    Model,
+                    page => Url.Action("TiledProducts",
+                    new {page, searchTerm = ViewBag.SearchTerm, categoryId = ViewBag.Category}
+                    ))
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

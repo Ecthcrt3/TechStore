@@ -172,7 +172,9 @@ namespace TechStore.DATA.EF.Models
             {
                 entity.Property(e => e.OrderId).HasColumnName("OrderID");
 
-                entity.Property(e => e.CustomerId).HasColumnName("CustomerID");
+                entity.Property(e => e.CustomerId)
+                    .HasMaxLength(450)
+                    .HasColumnName("CustomerID");
 
                 entity.Property(e => e.OrderDate).HasColumnType("date");
 
@@ -243,7 +245,9 @@ namespace TechStore.DATA.EF.Models
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
-                entity.Property(e => e.CustomerId).HasColumnName("CustomerID");
+                entity.Property(e => e.CustomerId)
+                    .HasMaxLength(450)
+                    .HasColumnName("CustomerID");
 
                 entity.Property(e => e.State)
                     .HasMaxLength(2)

@@ -10,9 +10,16 @@ namespace TechStore.UI.MVC.Controllers
     {
         private readonly StoreFrontContext _context;
         private readonly UserManager<IdentityUser> _userManager;
-        public IActionResult Index()
+        public ShoppingCartController(StoreFrontContext context, UserManager<IdentityUser> userManager)
+        {
+            _context = context;
+            _userManager = userManager;
+        }
+
+        public IActionResult Index()                    
         {
             var sessionCart = HttpContext.Session.GetString("cart");
+            
             Dictionary<int, CartItemViewModel> shoppingCart = null;
 
             if (sessionCart == null || sessionCart.Count() == 0)
@@ -25,7 +32,6 @@ namespace TechStore.UI.MVC.Controllers
                 ViewBag.Message = null;
                 shoppingCart = JsonConvert.DeserializeObject<Dictionary<int, CartItemViewModel>>(sessionCart);
             }
-
             return View(shoppingCart);
         }
 
@@ -95,8 +101,8 @@ namespace TechStore.UI.MVC.Controllers
         {
 
             var userId = (await _userManager.GetUserAsync(HttpContext.User))?.Id;
-
             var customer = _context.Customers.Find(userId);
+
 
             var order = new Order()
             {
@@ -116,7 +122,7 @@ namespace TechStore.UI.MVC.Controllers
                 {
                     OrderId = order.OrderId,
                     ProductId = item.Key,
-                    Quantity = (short)item.Value.Qty
+                    Quantity = item.Value.Qty
                 };
 
                 order.OrderInformations.Add(orderProduct);

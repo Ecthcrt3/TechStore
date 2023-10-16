@@ -26,24 +26,46 @@ namespace TechStore.UI.MVC.Controllers
                           Problem("Entity set 'StoreFrontContext.Categories'  is null.");
         }
 
+        
+
         // GET: Categories/Details/5
-        public async Task<IActionResult> Details(int? id)
+        //public async Task<IActionResult> Details(int? id)
+        //{
+        //    if (id == null || _context.Categories == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    var category = await _context.Categories
+        //        .FirstOrDefaultAsync(m => m.CategoryId == id);
+        //    if (category == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    return View(category);
+        //}
+
+
+        [AcceptVerbs("POST")]
+        public JsonResult AjaxDelete(int id)
         {
-            if (id == null || _context.Categories == null)
-            {
-                return NotFound();
-            }
+            var category = _context.Categories.Find(id);
+            _context.Categories.Remove(category);
+            _context.SaveChanges();
 
-            var category = await _context.Categories
-                .FirstOrDefaultAsync(m => m.CategoryId == id);
-            if (category == null)
+            return Json(new
             {
-                return NotFound();
-            }
-
-            return View(category);
+                id = id,
+                message = $"{category.CategoryName} was deleted!",
+            });
         }
 
+        public PartialViewResult CategoryDetails(int id)
+        {
+            var category = _context.Categories.Find(id);
+            return PartialView(category);
+        }
         // GET: Categories/Create
         public IActionResult Create()
         {

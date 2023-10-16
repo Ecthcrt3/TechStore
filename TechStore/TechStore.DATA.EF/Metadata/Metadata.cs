@@ -45,6 +45,7 @@ namespace TechStore.DATA.EF.Models//Metadata
 
     public class CustomerMetadata
     {
+        public string CustomerId { get; set; } = null!;
         [Required]
         [StringLength(50)]
         public string UserName { get; set; } = null!;

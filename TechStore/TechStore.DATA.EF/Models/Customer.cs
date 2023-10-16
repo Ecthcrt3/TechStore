@@ -5,7 +5,7 @@ namespace TechStore.DATA.EF.Models
 {
     public partial class Customer
     {
-        public int CustomerId { get; set; }
+        public string CustomerId { get; set; } = null!;
         public string UserName { get; set; } = null!;
         public string FirstName { get; set; } = null!;
         public string LastName { get; set; } = null!;

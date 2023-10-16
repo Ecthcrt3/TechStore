@@ -9,7 +9,17 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
+
+
+
+<div class="row">
+    <div class="offset-3 col-md-6">
+        <div id="MessageContent" class="text-center"></div>
+    </div>
+</div>
+
+
+<table class="table" id="CategoriesTable">
     <thead>
         <tr>
             <th>
@@ -22,20 +32,68 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.CategoryName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CategoryDescription)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.CategoryId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.CategoryId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.CategoryId">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr id="Category-@item.CategoryId">
+                <td>
+                    @Html.DisplayFor(modelItem => item.CategoryName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CategoryDescription)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.CategoryId">Edit</a> |
+
+                    <button type="button" id="@item.CategoryId" class="DetailsLink btn btn-dark" data-toggle="modal" data-target="#CategoryDetails">
+                        Details
+                    </button> |
+                    <a data-ajax="true"
+                   data-ajax-confirm="Are you sure you want to delete @item.CategoryName"
+                   data-ajax-failure="deleteFailed"
+                   data-ajax-success="deleteConfirmed"
+                   data-ajax-method="POST"
+                   href="~/Categories/AjaxDelete/@item.CategoryId">
+                        Delete
+                    </a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+
+@*Modal for AJAX Details*@
+<div class="modal fade" id="CategoryDetails" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Details</h5>
+            </div>
+            <div class="modal-body" id="DetailsBody">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+        //*********** AJAX DELETE ***********//
+    function deleteConfirmed(response, status, data) {
+        let rowId = "#Category-" + response.id;
+        console.log(rowId);
+        $("#CategoriesTable").find(rowId).remove();
+        $("#MessageContent").html("<div class='alert alert-success'>" + response.message + "</div>");
+    }
+    function deleteFailed(response, status, data) {
+        $("#MessageContent").html("<div class='alert alert-danger'>Delete unsuccessful</div>");
+    }
+
+            //*********** AJAX DETAILS ***********//
+    $(".DetailsLink").on("click", function(e) {
+        let categoryId = $(this).attr("id");
+        $("#CategoryDetails .modal-body").load("Categories/CategoryDetails/" + categoryId);
+    })
+</script>
+}

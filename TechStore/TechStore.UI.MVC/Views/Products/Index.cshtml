@@ -1,13 +1,25 @@
 ﻿@model IEnumerable<TechStore.DATA.EF.Models.Product>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Products - Admin View";
 }
 
-<h1>Index</h1>
+@section hero{
 
-<p>
-    <a asp-action="Create">Create New</a>
+
+<!-- Header-->
+<header class="bg-dark py-2">
+    <div class="container px-4 px-lg-5 my-3">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">Product Information</h1>
+        </div>
+    </div>
+</header>
+}
+
+<p class="row justify-content-around">
+    <a asp-action="Create" class="btn btn-dark col-md-2">Create New</a>
+    <a asp-action="ProductsTiled" class="btn btn-dark col-md-2">User View</a>
 </p>
 <table class="table">
     <thead>
@@ -69,3 +81,11 @@
 }
     </tbody>
 </table>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('.table').DataTable();
+        });
+    </script>
+}
