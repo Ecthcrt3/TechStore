@@ -1,7 +1,18 @@
 ﻿@model TechStore.DATA.EF.Models.Category
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Edit Category";
+}
+
+@section hero{
+<header class="bg-dark py-2">
+    <div class="container px-4 px-lg-5 my-3">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">Edit Category:</h1>
+            <h2>@Model.CategoryName</h2>
+        </div>
+    </div>
+</header>
 }
 
 <h1>Edit</h1>
@@ -23,17 +34,17 @@
                 <input asp-for="CategoryDescription" class="form-control" />
                 <span asp-validation-for="CategoryDescription" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+            <div class="form-group my-2">
+                <input type="submit" value="Save" class="btn btn-dark" />
+                <a class="btn btn-dark" asp-action="Index">Cancel</a>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
 }

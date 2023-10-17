@@ -4,9 +4,20 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
+@section hero{
 
-<h4>Product</h4>
+
+<!-- Header-->
+<header class="bg-dark py-2">
+    <div class="container px-4 px-lg-5 my-3">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">Edit Product:</h1>
+            <h2>@Model.ProductName</h2>
+        </div>
+    </div>
+</header>
+}
+
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -46,21 +57,22 @@
             </div>
             <div class="form-group">
                 <label asp-for="ProductImage" class="control-label"></label>
-@*                <input asp-for="ProductImage" class="form-control" />*@
-            <input type="file" asp-for="Image" />
+                @*                <input asp-for="ProductImage" class="form-control" />*@
+                <input type="file" asp-for="Image" class="form-control" />
                 <span asp-validation-for="ProductImage" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+            <div class="form-group my-2">
+                <input type="submit" value="Save" class="btn btn-dark" />
+                <a class="btn btn-dark" asp-action="Index">Cancel</a>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
 }

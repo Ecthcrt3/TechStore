@@ -18,9 +18,9 @@
 </header>
 }
 
-<div>
+<div class="row">
 
-    <dl class="row">
+    <dl class="col-md-4 ">
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.ProductName)
         </dt>
@@ -37,7 +37,7 @@
             @Html.DisplayNameFor(model => model.ProductPrice)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ProductPrice)
+            @String.Format($"{Model.ProductPrice:c}")
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.UnitsInStock)
@@ -50,16 +50,18 @@
             @Html.DisplayNameFor(model => model.Category)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Category.CategoryId)
+            @Html.DisplayFor(model => model.Category.CategoryName)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.RestockLevelNavigation)
+            Min/Max
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.RestockLevelNavigation.RestockLevel)
+            @Html.DisplayFor(model => model.RestockLevelNavigation.MinStock)/@Html.DisplayFor(model => model.RestockLevelNavigation.MaxStock)
         </dd>
         }
     </dl>
+    
+       <img src="~/assets/@Model.ProductImage" class="img-fluid col-md-4 offset-2" alt="@Model.ProductDescription" />
 </div>
 <div>
     @if(@User.IsInRole("Admin")){

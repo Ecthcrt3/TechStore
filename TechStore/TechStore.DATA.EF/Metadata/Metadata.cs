@@ -27,6 +27,7 @@ namespace TechStore.DATA.EF.Models//Metadata
         [Range(0, int.MaxValue)]
         [Display(Name = "Available Units")]
         public int? UnitsInStock { get; set; }
+        [Display(Name = "Min/Max")]
         public int? RestockLevel { get; set; }
 
         public string? ProductImage { get; set; }

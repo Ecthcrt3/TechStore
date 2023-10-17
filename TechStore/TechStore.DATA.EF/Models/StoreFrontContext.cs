@@ -185,8 +185,6 @@ namespace TechStore.DATA.EF.Models
             {
                 entity.ToTable("OrderInformation");
 
-                entity.Property(e => e.OrderInformationId).ValueGeneratedNever();
-
                 entity.HasOne(d => d.Order)
                     .WithMany(p => p.OrderInformations)
                     .HasForeignKey(d => d.OrderId)

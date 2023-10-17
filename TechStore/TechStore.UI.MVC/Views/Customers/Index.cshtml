@@ -1,14 +1,19 @@
 ﻿@model IEnumerable<TechStore.DATA.EF.Models.Customer>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Customers";
 }
 
-<h1>Index</h1>
+@section hero{
+<header class="bg-dark py-2">
+    <div class="container px-4 px-lg-5 my-3">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">Customers</h1>
+        </div>
+    </div>
+</header>
+}
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
@@ -49,9 +54,8 @@
                 @Html.DisplayFor(modelItem => item.PhoneNumber)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.CustomerId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.CustomerId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.CustomerId">Delete</a>
+                <a class="btn btn-dark" asp-action="Edit" asp-route-id="@item.CustomerId">Edit</a> |
+                <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.CustomerId">Delete</a>
             </td>
         </tr>
 }

@@ -129,7 +129,7 @@ namespace TechStore.UI.MVC.Controllers
             }
 
             _context.SaveChanges();
-            return RedirectToAction("Index", "Orders");
+            return View("OrderConfirmation");
         }
     }
 }

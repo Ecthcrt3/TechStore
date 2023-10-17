@@ -25,7 +25,7 @@
 {
     <p class="row justify-content-around">
         <a asp-action="Create" class="btn btn-dark col-md-2">Create New</a>
-        <a asp-action="Index" class="btn btn-dark col-md-2"> View</a>
+        <a asp-action="Index" class="btn btn-dark col-md-2">Admin View</a>
     </p>
 }
 
@@ -78,13 +78,13 @@
             }
         </div>
 
-        <div class="row mt-5">
-            <div class="w-50 mx-auto text-center">
+        <div class="row mt-5 ">
+            <div class="w-50">
                 Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
                 <div class="w-100">
                     @Html.PagedListPager(
                     Model,
-                    page => Url.Action("TiledProducts",
+                    page => Url.Action("ProductsTiled",
                     new {page, searchTerm = ViewBag.SearchTerm, categoryId = ViewBag.Category}
                     ))
                 </div>
