@@ -1,0 +1,25 @@
+﻿@{
+    ViewData["Title"] = "Order Confirmation";
+}
+
+@section hero{
+
+
+<!-- Header-->
+<header class="bg-dark py-2">
+    <div class="container px-4 px-lg-5 my-3">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">Thank you for your Order</h1>
+        </div>
+    </div>
+</header>
+}
+
+
+<div>
+    <p>
+        Your Order has been placed at @DateTime.Now.
+    </p>
+
+    <a class="btn btn-dark" asp-action="ProductsTiled" asp-controller="Products">Back To Shop</a>
+</div>
